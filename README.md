@@ -1,6 +1,6 @@
 # Automatic Verification and Revision of Action Annotation in Offline GUI Agent Datasets
 
-These are the reproducibility materials for a paper submitted to FSE 2027. You can test the Actor, Arbiter, Gatekeeper, and bounding-box generation stages individually, or test the fully automated end-to-end pipeline.
+These materials accompany a paper on automatic verification and revision of action annotation in offline GUI agent datasets. You can test the Actor, Arbiter, Gatekeeper, and bounding-box generation stages individually, or test the fully automated end-to-end pipeline.
 
 These reproducibility materials provide a web-based GUI for testing the pipeline on individual steps.
 

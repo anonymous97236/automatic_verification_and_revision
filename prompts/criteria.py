@@ -41,6 +41,10 @@ ACTION_SELECTION_CRITERIA = """
 - Use the on-screen back button whenever available.
 - Click outside the menu to close context menus or similar overlays.
 - Use the system back action only when no back button is visible.
+- On Android OS, clicking the Back button in the system navigation bar at the bottom of the screen is permitted. In such cases, prioritize clicking the Back button in the navigation bar over using the system back action.
+- Treat the system navigation bar at the bottom of the screen on Android OS as part of the app itself. In other words, if the user instruction specifies clicking the Back button on a particular page, the Back button in the bottom system navigation bar must also be considered a Back button belonging to that page, and clicking it is permitted.
+- When a popup is open and the area outside it is dimmed, consider that the Back button in the dimmed area outside the popup may not be usable.
+  - On the other hand, the Back button in the system navigation bar at the bottom of the screen on Android OS should be usable in almost all situations.
 
 ---
 
@@ -53,10 +57,10 @@ ACTION_SELECTION_CRITERIA = """
 
 ---
 
-### Visual Keyboard Required for type
-- If the keyboard is not visually visible on the screen, type cannot be used.
-- If the keyboard is not visible, you must click the text input field again.
-- For calculator apps, apply an exception. Only in calculator apps, the type action may be performed even when the keyboard is not visible.
+### Visual Keyboard or Keypad Required for Input
+- If neither a keyboard nor a keypad is visually visible on the screen, Input cannot be used.
+- If neither a keyboard nor a keypad is visible, you must click the text input field again. A visible keypad, including a numeric or dial keypad, is sufficient to use the Input action; a separate keyboard is not required.
+- For calculator apps, apply an exception. Only in calculator apps, the Input action may be performed even when neither a keyboard nor a keypad is visible.
 
 ---
 
@@ -74,20 +78,24 @@ ACTION_SELECTION_CRITERIA = """
 
 ### Text Input Completion
 - To complete text input, select the UI element for finalizing the input according to the priorities below.
-  - 1) The input completion button on the keyboard (e.g., the Enter key, Search key, checkmark key, etc. at the bottom right of the keyboard). 
-  - 2) A GUI element that proceeds to the next action. (e.g., Done, Save, etc.)
-  - 3) A recommended search query that exactly matches the entered keyword.
-- When the input completion button in the lower-right corner of the keyboard is available, you must press it. There are no exceptions.
-- This criterion applies unconditionally, regardless of the type of app or the specific situation. It applies to both search result screens and autocomplete suggestion screens. Do not consider whether clicking the keyboard's completion button will actually work. Without making such an inference, first prioritize clicking the completion button on the keyboard.
+  - 1) The element specified in the task goal.
+  - 2) The input completion button on the keyboard (e.g., the Enter key, Search key, checkmark key, etc. at the bottom right of the keyboard). 
+  - 3) A GUI element that proceeds to the next action. (e.g., Done, Save, etc.)
+  - 4) A recommended search query that exactly matches the entered keyword.
+- If a specific element is explicitly specified in the task goal, you must follow it. If no specific element is specified in the task goal, follow the priority order of 2 → 3 → 4.
+- Unless the task goal explicitly specifies a particular element, when the input completion button in the lower-right corner of the keyboard is available, you must press it. There are no exceptions.
+  - This criterion applies unconditionally, regardless of the type of app or the specific situation. It applies to both search result screens and autocomplete suggestion screens. Do not consider whether clicking the keyboard's completion button will actually work. Without making such an inference, first prioritize clicking the completion button on the keyboard.
 
 ---
 
 ### Keyboard Deactivation
 - After entering text in a document editor, notepad, or similar app, dismiss the keyboard according to the following priority order.
-  - 1) The input completion button on the keyboard (e.g., the Enter key, Search key, checkmark key, etc. at the bottom right of the keyboard). 
-  - 2) A GUI element that proceeds to the next action. (e.g., Done, Save, etc.)
-  - 3) The down arrow button in the lower-left corner of the keyboard.
-- When the input completion button in the lower-right corner of the keyboard is available, you must press it. There are no exceptions.
+  - 1) The element specified in the task goal.
+  - 2) The input completion button on the keyboard (e.g., the Enter key, Search key, checkmark key, etc. at the bottom right of the keyboard). 
+  - 3) A GUI element that proceeds to the next action. (e.g., Done, Save, etc.)
+  - 4) The down arrow button in the lower-left corner of the keyboard.
+- If a specific element is explicitly specified in the task goal, you must follow it. If no specific element is specified in the task goal, follow the priority order of 2 → 3 → 4.
+- Unless the task goal explicitly specifies a particular element, when the input completion button in the lower-right corner of the keyboard is available, you must press it. There are no exceptions.
 
 ---
 
@@ -118,7 +126,7 @@ ACTION_SELECTION_CRITERIA = """
 - If the previous action history does not indicate that a filter or sorting option has been applied, and the screen has already been scrolled down, scroll back, with y_s smaller than y_e, to the top of the screen and look for the filter and sorting UI.
 - If the items visible on the current screen appear mixed without a consistent filter and sorting criterion, the filter and sorting options have not been applied correctly. In this case, you must properly reset the filter and sorting options.
 - When performing tasks such as price comparison or rating comparison, the comparison must be conducted based on results after applying appropriate filter or sorting options.
-- If the task goal explicitly states that the user must select the item with the most or least of a certain attribute, if the previous action history does not indicate that a filter or sorting option has been applied, selecting a specific item or scrolling through the list is strictly prohibited.
+- If the task goal explicitly states that the user must select the item with the most or least of a certain attribute, if the previous action history does not indicate that a filter or sorting option has been applied, selecting a specific item is strictly prohibited.
 
 ---
 
@@ -128,9 +136,9 @@ ACTION_SELECTION_CRITERIA = """
 - Before applying this criterion, you must first verify whether the filter or sorting option has been properly configured.
   - If the previous action history does not indicate that a filter or sorting option has been applied, you must apply the appropriate filter or sorting option before selecting an item. This applies only when filtering or sorting is necessary.
   - If the filter or sorting UI is not visible on the current screen, you must scroll up, with y_s smaller than y_e, to find those UI elements.
-  - If the task goal explicitly states that the user must select the item with the most or least of a certain attribute, if the previous action history does not indicate that a filter or sorting option has been applied, selecting a specific item or scrolling through the list is strictly prohibited.
-- However, the Text Input Completion criterion must take precedence over this criterion. If the keyboard is visible and the previous action was a type action that needs to be completed, apply the Text Input Completion criterion instead of this criterion.
-- If the previous step was a type action, never select an item from the search results list. You must click the input completion key on the keyboard.
+  - If the task goal explicitly states that the user must select the item with the most or least of a certain attribute, if the previous action history does not indicate that a filter or sorting option has been applied, selecting a specific item is strictly prohibited.
+- However, the Text Input Completion criterion must take precedence over this criterion. If the keyboard is visible and the previous action was an Input action that needs to be completed, apply the Text Input Completion criterion instead of this criterion.
+- If the previous step was an Input action, never select an item from the search results list. You must click the input completion key on the keyboard.
 
 ---
 
@@ -181,7 +189,7 @@ ACTION_SELECTION_CRITERIA = """
 
 ### Use Shortcuts
 - If the target item appears in the search suggestions or history, skip the input action and click it directly.
-  - However, if a type action was already performed in the previous step, click the completion key at the bottom right of the keyboard in accordance with the Text Input Completion criterion.
+  - However, if an Input action was already performed in the previous step, click the completion key at the bottom right of the keyboard in accordance with the Text Input Completion criterion.
   - Always prioritize the Text Input Completion criterion over this criterion under all circumstances.
 - The clipboard text above the keyboard is also a useful shortcut. However, before using it, you must first check whether the text field is empty. If the text field is not empty, the clipboard shortcut must not be clicked under any circumstances.
 - If the target item is presented as a favorite or recommended option, bypass the standard app flow and select that shortcut.
@@ -208,11 +216,9 @@ ACTION_SELECTION_CRITERIA = """
 ---
 
 ### No Individual Key Use
-- Do not click individual number or letter keys on the keyboard one by one.
-- If several letter or number keys have already been clicked in the previous action history, check how much has been entered so far and try to enter the remaining part using the type action.
-- This criterion also applies to calculator apps. In a calculator app, do not click individual number or operator keys one by one; instead, enter the formula using the type action.
-  - When using the calculator, if number or operator keys have already been clicked in the previous action history, check how much of the formula has been entered so far, and enter the remaining part of the formula using the type action.
-  - At this point, do not enter the terms and operators separately. Enter the portion of the full formula that has not yet been entered all at once.
+- Do not click individual letter, number, or operator keys one by one on keyboards, keypads (including numeric or dial keypads), or calculators. Use the Input action instead.
+- If individual keys on a keyboard, keypad, or calculator have already been clicked in the previous action history, check what has been entered so far and enter only the remaining text, number, or formula using the Input action.
+- For keypad or calculator input, do not enter individual digits, terms, or operators separately. Enter the remaining portion of the required value or full formula all at once using the Input action.
 
 ---
 
